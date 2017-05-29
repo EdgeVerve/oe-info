@@ -1,4 +1,4 @@
-<!-- 
+<!--
   ©2016-2017 EdgeVerve Systems Limited (a fully owned Infosys subsidiary),
   Bangalore, India. All Rights Reserved.
 -->
@@ -183,8 +183,11 @@ Custom property | Description | Default
           {
             newDisplay = '';
             if (nval) {
-              if (this.format && this.format != 'date' && typeof moment !== 'undefined') {
-                newDisplay = moment(nval).format(this.format);
+              var dateFormat = this.format || ((baseUtils.TypeMappings && baseUtils.TypeMappings.date) ?
+                baseUtils.TypeMappings.date.format :
+                undefined);
+              if (dateFormat && dateFormat !== 'date' && typeof moment !== 'undefined') {
+                newDisplay = moment.utc(nval).format(dateFormat);
               } else {
                 newDisplay = (new Date(nval)).toLocaleString();
               }
