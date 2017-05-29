@@ -41,7 +41,7 @@ Custom property | Description | Default
       @apply(--layout-horizontal);
     }
 
-    .horizontal > #label {
+    .horizontal>#label {
       padding-right: 10px;
     }
 
@@ -213,6 +213,9 @@ Custom property | Description | Default
               minimumFractionDigits: this.precision,
               maximumFractionDigits: this.precision
             }) : '';
+            if (this.format) {
+              newDisplay = this.format.replace('@v', newDisplay);
+            }
             break;
           }
         case 'boolean':
@@ -222,6 +225,10 @@ Custom property | Description | Default
           }
         default:
           newDisplay = nval ? nval.toString() : '';
+          if (this.format) {
+            newDisplay = this.format.replace('@v', newDisplay);
+          }
+          break;
       }
 
       this._maskDisplay(newDisplay);
