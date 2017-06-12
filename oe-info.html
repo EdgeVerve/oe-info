@@ -41,7 +41,7 @@ Custom property | Description | Default
       @apply(--layout-horizontal);
     }
 
-    .horizontal>#label {
+    .horizontal > #label {
       padding-right: 10px;
     }
 
@@ -85,8 +85,8 @@ Custom property | Description | Default
   Polymer({
     is: 'oe-info',
     behaviors: [
-      baseUtils.FieldBehavior,
-      baseUtils.DataMaskBehavior
+      OEUtils.FieldBehavior,
+      OEUtils.DataMaskBehavior
     ],
     properties: {
 
@@ -174,7 +174,7 @@ Custom property | Description | Default
               if (this.format && this.format != 'date' && typeof moment !== 'undefined') {
                 newDisplay = moment.utc(nval).format(this.format);
               } else {
-                newDisplay = baseUtils.DateUtils.utcDateFormatter.format(new Date(nval));
+                newDisplay = OEUtils.DateUtils.utcDateFormatter.format(new Date(nval));
               }
             }
             break;
@@ -183,8 +183,8 @@ Custom property | Description | Default
           {
             newDisplay = '';
             if (nval) {
-              var dateFormat = this.format || ((baseUtils.TypeMappings && baseUtils.TypeMappings.date) ?
-                baseUtils.TypeMappings.date.format :
+              var dateFormat = this.format || ((OEUtils.TypeMappings && OEUtils.TypeMappings.date) ?
+                OEUtils.TypeMappings.date.format :
                 undefined);
               if (dateFormat && dateFormat !== 'date' && typeof moment !== 'undefined') {
                 newDisplay = moment.utc(nval).format(dateFormat);

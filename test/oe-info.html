@@ -110,7 +110,7 @@
         var value = new Date();
 
         evinfo.value = (value).toISOString();
-        var expected = baseUtils.DateUtils.utcDateFormatter.format(value);
+        var expected = OEUtils.DateUtils.utcDateFormatter.format(value);
         assert.equal(evinfo.display, expected, 'date formatting');
       });
 
