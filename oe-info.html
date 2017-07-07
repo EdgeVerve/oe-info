@@ -197,7 +197,7 @@ Custom property | Description | Default
         case 'integer':
           {
 
-            newDisplay = nval ? Number(nval).toLocaleString(undefined, {
+            newDisplay = (nval !== undefined || nval !== null) ? Number(nval).toLocaleString(undefined, {
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
               useGrouping: false
@@ -209,7 +209,7 @@ Custom property | Description | Default
         case 'decimal':
           {
 
-            newDisplay = nval ? Number(nval).toLocaleString(undefined, {
+            newDisplay = (nval !== undefined || nval !== null) ? Number(nval).toLocaleString(undefined, {
               minimumFractionDigits: this.precision,
               maximumFractionDigits: this.precision
             }) : '';
