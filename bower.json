@@ -3,10 +3,10 @@
   "main": "oe-info.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "oe-field-behavior": "http://github.com/EdgeVerve/oe-field-behavior.git",
-    "oe-data-mask-behavior": "http://github.com/EdgeVerve/oe-data-mask-behavior.git",
-    "oe-utils": "http://github.com/EdgeVerve/oe-utils.git",
-    "oe-i18n-msg": "http://github.com/EdgeVerve/oe-i18n-msg.git",
+    "oe-field-behavior": "https://github.com/EdgeVerve/oe-field-behavior.git",
+    "oe-data-mask-behavior": "https://github.com/EdgeVerve/oe-data-mask-behavior.git",
+    "oe-utils": "https://github.com/EdgeVerve/oe-utils.git",
+    "oe-i18n-msg": "https://github.com/EdgeVerve/oe-i18n-msg.git",
     "moment": "^2.18.1"
   },
   "devDependencies": {
