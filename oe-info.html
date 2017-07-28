@@ -187,7 +187,7 @@ Custom property | Description | Default
                 OEUtils.TypeMappings.date.format :
                 undefined);
               if (dateFormat && dateFormat !== 'date' && typeof moment !== 'undefined') {
-                newDisplay = moment.utc(nval).format(dateFormat);
+                newDisplay = moment(nval).format(dateFormat);
               } else {
                 newDisplay = (new Date(nval)).toLocaleString();
               }
