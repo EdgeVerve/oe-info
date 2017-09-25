@@ -3,10 +3,10 @@
   "main": "oe-info.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "oe-field-behavior": "^0.9.0",
-    "oe-data-mask-behavior": "^0.9.0",
-    "oe-utils": "^0.9.0",
-    "oe-i18n-msg": "^0.8.0",
+    "oe-field-behavior": "^1.0.0",
+    "oe-data-mask-behavior": "^1.0.0",
+    "oe-utils": "^1.0.0",
+    "oe-i18n-msg": "^1.0.0",
     "moment": "^2.18.1"
   },
   "devDependencies": {
