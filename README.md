@@ -2,6 +2,9 @@
 
 `<oe-info>` is used to display formatted values of numeric, string and date type.
 
+## Date
+Import moment.js in document level to support 'format' options for type date.
+
 ### Styling
 
 `<oe-info>` provides the following custom properties and mixins for styling:
