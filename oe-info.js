@@ -71,7 +71,7 @@ class OeInfo extends PolymerElement {
         <div id="label">
           <oe-i18n-msg msgid=[[label]]>[[label]]</oe-i18n-msg>
         </div>
-        <div id="info" aria-labelledby="label">
+        <div id="info">
           <dom-if if=[[!_needI18n(type)]]>
             <template>
               [[display]]
