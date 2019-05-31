@@ -3,12 +3,19 @@
  * ©2018-2019 EdgeVerve Systems Limited (a fully owned Infosys subsidiary),
  * Bangalore, India. All Rights Reserved.
  */
-import { html, PolymerElement } from "@polymer/polymer/polymer-element.js";
+import {
+  html,
+  PolymerElement
+} from "@polymer/polymer/polymer-element.js";
 import "oe-i18n-msg/oe-i18n-msg.js";
 import "@polymer/iron-flex-layout/iron-flex-layout.js";
 import "@polymer/polymer/lib/elements/dom-if.js";
-import { OEDataMaskMixin } from "oe-mixins/data-mask-mixin.js";
-import { OEFieldMixin } from "oe-mixins/oe-field-mixin.js";
+import {
+  OEDataMaskMixin
+} from "oe-mixins/data-mask-mixin.js";
+import {
+  OEFieldMixin
+} from "oe-mixins/oe-field-mixin.js";
 import "oe-utils/oe-utils.js";
 import "oe-utils/date-utils.js";
 
@@ -32,10 +39,12 @@ import "oe-utils/date-utils.js";
  * @demo /demo/index.html
  */
 class OeInfo extends PolymerElement {
-  static get is(){return 'oe-info';}
+  static get is() {
+    return 'oe-info';
+  }
 
   static get template() {
-    return html`
+    return html `
       <style >
         #label,
         #info {
@@ -152,6 +161,18 @@ class OeInfo extends PolymerElement {
       layout: {
         type: String,
         value: 'vertical'
+      },
+      /**
+       * If user prefers a different timezone for date to be displayed.
+       */
+      preferredTimeOffset: {
+        type: Number,
+        value: function () {
+          var OEUtils = window.OEUtils;
+          OEUtils.componentDefaults = OEUtils.componentDefaults || {};
+          OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
+          return OEUtils.componentDefaults["oe-info"].preferredTimeOffset || 0;
+        }
       }
     };
   }
@@ -176,62 +197,69 @@ class OeInfo extends PolymerElement {
     var type = this.type || 'text';
     var moment = window.moment;
     switch (type) {
-      case 'date':
-        {
-          newDisplay = '';
-          if (nval) {
-            if (this.format && this.format != 'date' && typeof moment !== 'undefined') {
-              newDisplay = moment.utc(nval).format(this.format);
-            } else {
-              newDisplay = OEUtils.DateUtils.utcDateFormatter.format(new Date(nval));
-            }
+      case 'date': {
+        newDisplay = '';
+        if (nval) {
+          if (this.format && this.format != 'date' && typeof moment !== 'undefined') {
+            newDisplay = moment.utc(nval).format(this.format);
+          } else {
+            newDisplay = OEUtils.DateUtils.utcDateFormatter.format(new Date(nval));
           }
-          break;
         }
-      case 'timestamp':
-        {
-          newDisplay = '';
-          if (nval) {
-            var dateFormat = this.format || ((OEUtils.TypeMappings && OEUtils.TypeMappings.date) ?
-              OEUtils.TypeMappings.date.format :
-              undefined);
-            if (dateFormat && dateFormat !== 'date' && typeof moment !== 'undefined') {
-              newDisplay = moment(nval).format(dateFormat);
-            } else {
-              newDisplay = (new Date(nval)).toLocaleString();
-            }
-          }
-          break;
-        }
-      case 'integer':
-        {
+        break;
+      }
+      case 'timestamp': {
+        newDisplay = '';
+        if (nval) {
+          var dateFormat = this.format || ((OEUtils.TypeMappings && OEUtils.TypeMappings.date) ?
+            OEUtils.TypeMappings.date.format :
+            undefined);
+          var dateLocal, dateUTCMilliseconds;
+          if (dateFormat && dateFormat !== 'date' && typeof moment !== 'undefined') {
+            if (this.preferredTimeOffset != 0) {
+              dateLocal = new Date(nval);
+              dateUTCMilliseconds = Date.UTC(dateLocal.getUTCFullYear(), dateLocal.getUTCMonth(), dateLocal.getUTCDate(), dateLocal.getUTCHours(), dateLocal.getUTCMinutes(), dateLocal.getUTCSeconds());
 
-          newDisplay = (nval !== undefined || nval !== null) ? Number(nval).toLocaleString(undefined, {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-            useGrouping: false
-          }) : '';
-          break;
+              newDisplay = moment.utc(dateUTCMilliseconds + this.preferredTimeOffset).format(dateFormat);
+            } else
+              newDisplay = moment(nval).format(dateFormat);
+          } else {
+            if (this.preferredTimeOffset != 0) {
+              dateLocal = new Date(nval);
+              dateUTCMilliseconds = Date.UTC(dateLocal.getUTCFullYear(), dateLocal.getUTCMonth(), dateLocal.getUTCDate(), dateLocal.getUTCHours(), dateLocal.getUTCMinutes(), dateLocal.getUTCSeconds());
+              newDisplay = new Date(dateUTCMilliseconds + this.preferredTimeOffset + dateLocal.getTimezoneOffset() * 60000).toLocaleString();
+            } else
+              newDisplay = (new Date(nval)).toLocaleString();
+          }
         }
+        break;
+      }
+      case 'integer': {
+
+        newDisplay = (nval !== undefined || nval !== null) ? Number(nval).toLocaleString(undefined, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+          useGrouping: false
+        }) : '';
+        break;
+      }
       case 'number':
       case 'double':
-      case 'decimal':
-        {
+      case 'decimal': {
 
-          newDisplay = (nval !== undefined || nval !== null) ? Number(nval).toLocaleString(undefined, {
-            minimumFractionDigits: this.precision,
-            maximumFractionDigits: this.precision
-          }) : '';
-          if (this.format) {
-            newDisplay = this.format.replace('@v', newDisplay);
-          }
-          break;
+        newDisplay = (nval !== undefined || nval !== null) ? Number(nval).toLocaleString(undefined, {
+          minimumFractionDigits: this.precision,
+          maximumFractionDigits: this.precision
+        }) : '';
+        if (this.format) {
+          newDisplay = this.format.replace('@v', newDisplay);
         }
-      case 'boolean':
-        {
-          newDisplay = nval ? 'Yes' : 'No';
-          break;
-        }
+        break;
+      }
+      case 'boolean': {
+        newDisplay = nval ? 'Yes' : 'No';
+        break;
+      }
       default:
         newDisplay = nval ? nval.toString() : '';
         if (this.format) {
@@ -244,7 +272,7 @@ class OeInfo extends PolymerElement {
   }
 
 }
-if(!window.moment){
+if (!window.moment) {
   console.warn('OE-INFO : Import moment.js at the document level to support date formats.');
 }
 window.customElements.define(OeInfo.is, OEDataMaskMixin(OEFieldMixin(OeInfo)));
