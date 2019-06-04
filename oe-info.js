@@ -165,13 +165,14 @@ class OeInfo extends PolymerElement {
       /**
        * If user prefers a different timezone for date to be displayed.
        */
-      preferredTimeOffset: {
+      preferredTimezone: {
         type: Number,
         value: function () {
           var OEUtils = window.OEUtils;
           OEUtils.componentDefaults = OEUtils.componentDefaults || {};
           OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
-          return OEUtils.componentDefaults["oe-info"].preferredTimeOffset || 0;
+          //Setting offset based on given offset value / current time zone offset value in minutes
+          return OEUtils.componentDefaults["oe-info"].preferredTimezone || -((new Date()).getTimezoneOffset());
         }
       }
     };
@@ -211,25 +212,18 @@ class OeInfo extends PolymerElement {
       case 'timestamp': {
         newDisplay = '';
         if (nval) {
+          /** Apply preferred timezone offset on the current date value before
+           * formatting it for display
+           */
+          var dateLocal = new Date(nval);
+          dateLocal.setMinutes(dateLocal.getMinutes() + this.preferredTimezone + dateLocal.getTimezoneOffset());
           var dateFormat = this.format || ((OEUtils.TypeMappings && OEUtils.TypeMappings.date) ?
             OEUtils.TypeMappings.date.format :
             undefined);
-          var dateLocal, dateUTCMilliseconds;
           if (dateFormat && dateFormat !== 'date' && typeof moment !== 'undefined') {
-            if (this.preferredTimeOffset != 0) {
-              dateLocal = new Date(nval);
-              dateUTCMilliseconds = Date.UTC(dateLocal.getUTCFullYear(), dateLocal.getUTCMonth(), dateLocal.getUTCDate(), dateLocal.getUTCHours(), dateLocal.getUTCMinutes(), dateLocal.getUTCSeconds());
-
-              newDisplay = moment.utc(dateUTCMilliseconds + this.preferredTimeOffset).format(dateFormat);
-            } else
-              newDisplay = moment(nval).format(dateFormat);
+            newDisplay = moment(dateLocal).format(dateFormat);
           } else {
-            if (this.preferredTimeOffset != 0) {
-              dateLocal = new Date(nval);
-              dateUTCMilliseconds = Date.UTC(dateLocal.getUTCFullYear(), dateLocal.getUTCMonth(), dateLocal.getUTCDate(), dateLocal.getUTCHours(), dateLocal.getUTCMinutes(), dateLocal.getUTCSeconds());
-              newDisplay = new Date(dateUTCMilliseconds + this.preferredTimeOffset + dateLocal.getTimezoneOffset() * 60000).toLocaleString();
-            } else
-              newDisplay = (new Date(nval)).toLocaleString();
+            newDisplay = dateLocal.toLocaleString();
           }
         }
         break;
