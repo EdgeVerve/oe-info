@@ -146,6 +146,50 @@
       });
 
     });
+    suite('Set Timezone with positive timeoffset', function () {
+      setup(function (done) {
+        setTimeout(function () {
+          var OEUtils = window.OEUtils || {};
+          OEUtils.componentDefaults = OEUtils.componentDefaults || {};
+          OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
+          OEUtils.componentDefaults["oe-info"].preferredTimezone  = 120;
+          done();
+        }, 1000)
+        });
+      test('timestamp value in preferred timezone with positive timezone offset', function () {
+        var oeinfo = fixture('basic');
+        oeinfo.type = 'timestamp';
+        oeinfo.format = 'DD-MMM-YYYY HH:mm:ss';
+        //UTC value
+        var value = "2019-06-03T22:00:00Z";
+        oeinfo.value= value;
+        //Expected time in preferred timezone
+        var expected = '04-Jun-2019 00:00:00';
+        assert.equal(oeinfo.display, expected, 'timezone setting');
+      });
+    });
+    suite('Set Timezone with negative timeoffset', function () {
+      setup(function (done) {
+        setTimeout(function () {
+          var OEUtils = window.OEUtils || {};
+          OEUtils.componentDefaults = OEUtils.componentDefaults || {};
+          OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
+          OEUtils.componentDefaults["oe-info"].preferredTimezone  = -240;
+          done();
+        }, 1000)
+        });
+      test('timestamp value in preferred timezone with negative timezone offset', function () {
+        var oeinfo = fixture('basic');
+        oeinfo.type = 'timestamp';
+        oeinfo.format = 'DD-MMM-YYYY HH:mm:ss';
+        //UTC value
+        var value = "2019-06-04T04:00:00Z";
+        oeinfo.value= value;
+        //Expected time in preferred timezone
+        var expected = '04-Jun-2019 00:00:00';
+        assert.equal(oeinfo.display, expected, 'timezone setting');
+      });
+    });
 
   </script>
 
