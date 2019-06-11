@@ -75,6 +75,9 @@ class OeInfo extends PolymerElement {
     
           @apply --oe-info-value;
         }
+        .hide {
+          display: none;
+        }
       </style>
       <div class$="[[layout]]">
         <div id="label">
@@ -92,7 +95,7 @@ class OeInfo extends PolymerElement {
             </template>
           </dom-if>
             <!-- dummy span to ensure div with empty value occupies the space -->
-            <span class="required" hidden$="[[display]]">&nbsp;</span>
+            <span class="required" class$=[[_getClass(display)]]>&nbsp;</span>
         </div>
     </div>
     `;
@@ -187,6 +190,9 @@ class OeInfo extends PolymerElement {
     return type == 'boolean';
   }
 
+  _getClass(display){
+    return !!!display?'':'hide';
+  }
   /**
    * Refresh the display due to either value or some configuration attribute change.
    */
