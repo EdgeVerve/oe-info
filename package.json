@@ -2,7 +2,7 @@
   "name": "oe-info",
   "description": "A element used to display formatted values of numeric, string and date type",
   "main": "oe-info.js",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "scripts": {
     "test": "polymer test --module-resolution node --skip-selenium-install",
     "lint": "eslint .",
@@ -12,9 +12,9 @@
     "@polymer/paper-checkbox": "3.1.0",
     "@polymer/polymer": "3.1.0",
     "moment": "2.24.0",
-    "oe-i18n-msg": "git+http://evgit/oecloud.io/oe-i18n-msg.git#master",
-    "oe-mixins": "git+http://evgit/oecloud.io/oe-mixins.git#master",
-    "oe-utils": "git+http://evgit/oecloud.io/oe-utils.git#master"
+    "oe-i18n-msg": "git+http://evgit/oecloud.io/oe-i18n-msg.git#2.0.0",
+    "oe-mixins": "git+http://evgit/oecloud.io/oe-mixins.git#2.1.0",
+    "oe-utils": "git+http://evgit/oecloud.io/oe-utils.git#2.0.0"
   },
   "devDependencies": {
     "@polymer/iron-component-page": "4.0.1",
