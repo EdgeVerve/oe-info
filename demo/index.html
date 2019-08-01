@@ -93,6 +93,15 @@
         <oe-info label="email" value="user@evf.com" mask-pattern="@[\w]+.*" mask-string="@example.com"></oe-info>
       </template>
     </demo-snippet>
+
+    <h3>Objects</h3>
+    <demo-snippet>
+      <template>
+        <oe-info label="No Format" type="object" value='{"name": "TRADE", "description": "Trading Account"}'></oe-info>
+        <oe-info label="With Format" type="object" format="${name} balance is ${balance.value} ${balance.ccy}" value='{"name": "Trading Account", "balance": {"value": 1000, "ccy": "USD"}}'></oe-info>
+      </template>
+    </demo-snippet>
+
   </div>
 </body>
 

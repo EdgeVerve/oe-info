@@ -145,6 +145,31 @@
         assert.equal(evinfo.display, expected, 'timestamp formatting');
       });
 
+      test('Object value is formatted with specified format', function () {
+        var evinfo = fixture('basic');
+        evinfo.format = '${name} balance is ${balance.value} ${balance.ccy}';
+        var value={"name": "Trading Account", "balance": {"value": 1000, "ccy": "USD"}};
+        evinfo.value = value;
+        var expected = 'Trading Account balance is 1000 USD';
+        assert.equal(evinfo.display, expected, 'object formatting');
+      });
+
+      test('String value is formatted with specified format', function () {
+        var evinfo = fixture('basic');
+        evinfo.format = 'The name is @v';
+        evinfo.value = 'Bond';
+        var expected = 'The name is Bond';
+        assert.equal(evinfo.display, expected, 'string formatting');
+      });
+
+      test('String value is Not formatted if @v is not present in format', function () {
+        var evinfo = fixture('basic');
+        evinfo.format = 'The name is ${name}';
+        evinfo.value = 'Bond';
+        var expected = 'Bond';
+        assert.equal(evinfo.display, expected, 'string formatting');
+      });
+
     });
     suite('Set Timezone with positive timeoffset', function () {
       setup(function (done) {

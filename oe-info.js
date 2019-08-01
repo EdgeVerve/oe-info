@@ -190,9 +190,26 @@ class OeInfo extends PolymerElement {
     return type == 'boolean';
   }
 
-  _getClass(display){
-    return !!!display?'':'hide';
+  _getClass(display) {
+    return !!!display ? '' : 'hide';
   }
+
+  /**
+   * Get the value from the 'obj' based on the 'path'.
+   * @param {Object} obj object to navigate
+   * @param {string} path path for navigation
+   * @return {Any} value present in the given path of the obj.
+   */
+  _deepValue(obj, path) {
+    path = path.split('.');
+
+    for (var i = 0, len = path.length; obj && i < len; i++) {
+      obj = obj[path[i]];
+    }
+
+    return obj;
+  }
+
   /**
    * Refresh the display due to either value or some configuration attribute change.
    */
@@ -261,10 +278,29 @@ class OeInfo extends PolymerElement {
         break;
       }
       default:
-        newDisplay = nval ? nval.toString() : '';
-        if (this.format) {
-          newDisplay = this.format.replace('@v', newDisplay);
+        var valueType = typeof nval;
+        if (valueType === 'undefined' || nval === null) {
+          newDisplay = '';
+        } else if (valueType === 'string') {
+          newDisplay = nval;
+          if (this.format && this.format.indexOf('@v') >= 0) {
+            newDisplay = this.format.replace('@v', newDisplay);
+          }
+        } else {
+          /* Possibly an object */
+          if (this.format) {
+            var placeholders = this.format.match(/\$\{[\w.]*\}/g);
+            newDisplay = this.format;
+            placeholders.forEach(ph => {
+              /* ph = '${name}' -----> key = 'name' */
+              var key = ph.substring(2, ph.length-1);
+              newDisplay = newDisplay.replace(ph, this._deepValue(nval, key));
+            });
+          } else {
+            newDisplay = nval.toString();
+          }
         }
+
         break;
     }
 
