@@ -147,7 +147,7 @@
 
       test('Object value is formatted with specified format', function () {
         var evinfo = fixture('basic');
-        evinfo.format = '${name} balance is ${balance.value} ${balance.ccy}';
+        evinfo.format = '$[name] balance is $[balance.value] $[balance.ccy]';
         var value={"name": "Trading Account", "balance": {"value": 1000, "ccy": "USD"}};
         evinfo.value = value;
         var expected = 'Trading Account balance is 1000 USD';

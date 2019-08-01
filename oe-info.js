@@ -289,13 +289,17 @@ class OeInfo extends PolymerElement {
         } else {
           /* Possibly an object */
           if (this.format) {
-            var placeholders = this.format.match(/\$\{[\w.]*\}/g);
-            newDisplay = this.format;
-            placeholders.forEach(ph => {
-              /* ph = '${name}' -----> key = 'name' */
-              var key = ph.substring(2, ph.length-1);
-              newDisplay = newDisplay.replace(ph, this._deepValue(nval, key));
-            });
+            var placeholders = this.format.match(/\$\[[\w.]*\]/g);
+            if(placeholders && placeholders.length > 0) {
+              newDisplay = this.format;
+              placeholders.forEach(ph => {
+                /* ph = '${name}' -----> key = 'name' */
+                var key = ph.substring(2, ph.length-1);
+                newDisplay = newDisplay.replace(ph, this._deepValue(nval, key));
+              });  
+            } else {
+              newDisplay = nval.toString();
+            }
           } else {
             newDisplay = nval.toString();
           }

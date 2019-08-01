@@ -19,5 +19,5 @@ Custom property | Description | Default
 
   <oe-info label="Balance" format="Account Balance is @v" value="3423434.34324"></oe-info>
 
-  <oe-info format="The name is ${name}" value='{"name":"Bond"}'></oe-info>
+  <oe-info format="The name is $[name]" value='{"name":"Bond"}'></oe-info>
 ```
