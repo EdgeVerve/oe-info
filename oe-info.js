@@ -53,6 +53,7 @@ class OeInfo extends PolymerElement {
     
         .vertical {
           @apply --layout-vertical;
+          @apply --oe-info-container;
         }
     
         .horizontal {
