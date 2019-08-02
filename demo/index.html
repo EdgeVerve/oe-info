@@ -57,12 +57,12 @@
     </demo-snippet>
 
 
-    <h3>Boolean with custom style</h3>
+    <h3>Boolean</h3>
     <demo-snippet>
       <template>
         <dom-bind>
           <template>
-            <oe-info class="custom-css" label="Default" type="boolean" value="{{isChecked}}"></oe-info>
+            <oe-info label="Default" type="boolean" value="{{isChecked}}"></oe-info>
             <paper-checkbox checked={{isChecked}}>Toggle</paper-checkbox>
           </template>
         </dom-bind>
@@ -70,11 +70,11 @@
     </demo-snippet>
 
 
-    <h3>Number with custom style</h3>
+    <h3>Number</h3>
     <demo-snippet>
       <template>
-        <oe-info class="custom-css" label="No precision" type="number" value="4343.34234342"></oe-info>
-        <oe-info class="custom-css" label="Precision=2" type="number" precision=2 value="3423434.34324"></oe-info>
+        <oe-info label="No precision" type="number" value="4343.34234342"></oe-info>
+        <oe-info label="Precision=2" type="number" precision=2 value="3423434.34324"></oe-info>
       </template>
     </demo-snippet>
 
@@ -87,12 +87,12 @@
       </template>
     </demo-snippet>
 
-    <h3>Timestamp with custom style</h3>
+    <h3>Timestamp</h3>
     <demo-snippet>
       <template>
-        <oe-info class="custom-css" label="No Format" type="timestamp" value="2016-03-24T07:29:32.354Z"></oe-info>
-        <oe-info class="custom-css" label="With Format" type="timestamp" format="ddd DD-MMM-YYYY hh:mm:ss AZZ" value="2016-05-27T07:29:32.354Z"></oe-info>
-        <oe-info class="custom-css" label="Input in different timezone" type="timestamp" format="ddd DD-MMM-YYYY hh:mm:ss AZZ" value="2016-05-27T07:29:32.354-0500"></oe-info>
+        <oe-info label="No Format" type="timestamp" value="2016-03-24T07:29:32.354Z"></oe-info>
+        <oe-info label="With Format" type="timestamp" format="ddd DD-MMM-YYYY hh:mm:ss AZZ" value="2016-05-27T07:29:32.354Z"></oe-info>
+        <oe-info label="Input in different timezone" type="timestamp" format="ddd DD-MMM-YYYY hh:mm:ss AZZ" value="2016-05-27T07:29:32.354-0500"></oe-info>
       </template>
     </demo-snippet>
 
@@ -123,7 +123,14 @@
         <oe-info label="With Format" type="object" format="$[name] balance is $[balance.value] $[balance.ccy]" value='{"name": "Trading Account", "balance": {"value": 1000, "ccy": "USD"}}'></oe-info>
       </template>
     </demo-snippet>
-
+    <h3>oe info with custom style</h3>
+    <demo-snippet>
+      <template>
+        <oe-info class="custom-css" label="No Format" type="timestamp" value="2016-03-24T07:29:32.354Z"></oe-info>
+        <oe-info class="custom-css" label="No precision" type="number" value="4343.34234342"></oe-info>
+        <oe-info  class="custom-css" label="account" value="IBAN4923043423434"></oe-info>
+      </template>
+    </demo-snippet>
   </div>
 </body>
 
