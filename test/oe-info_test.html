@@ -45,8 +45,10 @@
 
   <script type="module">
 
+    /* 
+    aria-labelledby attribute on value prevents from reading the value
     suite('a11y', function () {
-
+      
       test('has aria-labelledby', function () {
         var evinfo = fixture('has-label');
         assert.isTrue(evinfo.$.info.hasAttribute('aria-labelledby'));
@@ -56,18 +58,18 @@
 
       //a11ySuite uses document.getElementById which won't find items in shadowRoot;
 
-    });
+    }); */
 
 
     suite('Formatting', function () {
-      test('integer value is formatted', function () {
+      test('integer value is formatted - round down', function () {
         var evinfo = fixture('basic');
         evinfo.type = 'integer';
         evinfo.value = 4534535.453424;
         assert.equal(evinfo.display, '4534535', 'integer formatting');
       });
 
-      test('integer value is formatted', function () {
+      test('integer value is formatted - round up', function () {
         var evinfo = fixture('basic');
         evinfo.type = 'integer';
         evinfo.value = 4534535.978657;
