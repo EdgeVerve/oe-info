@@ -44,7 +44,7 @@ class OeInfo extends PolymerElement {
   }
 
   static get template() {
-    return html `
+    return html`
       <style >
         #label,
         #info {
@@ -86,9 +86,7 @@ class OeInfo extends PolymerElement {
         </div>
         <div id="info">
           <dom-if if=[[!_needI18n(type)]]>
-            <template>
-              [[display]]
-            </template>
+            <template>[[display]]</template>
           </dom-if>
           <dom-if if=[[_needI18n(type)]]>
             <template>
@@ -192,7 +190,7 @@ class OeInfo extends PolymerElement {
   }
 
   _getClass(display) {
-    return !!!display ? '' : 'hide';
+    return !display ? '' : 'hide';
   }
 
   /**
@@ -291,13 +289,13 @@ class OeInfo extends PolymerElement {
           /* Possibly an object */
           if (this.format) {
             var placeholders = this.format.match(/\$\[[\w.]*\]/g);
-            if(placeholders && placeholders.length > 0) {
+            if (placeholders && placeholders.length > 0) {
               newDisplay = this.format;
               placeholders.forEach(ph => {
                 /* ph = '${name}' -----> key = 'name' */
-                var key = ph.substring(2, ph.length-1);
+                var key = ph.substring(2, ph.length - 1);
                 newDisplay = newDisplay.replace(ph, this._deepValue(nval, key));
-              });  
+              });
             } else {
               newDisplay = nval.toString();
             }
