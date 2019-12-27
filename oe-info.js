@@ -35,16 +35,16 @@ import "oe-utils/date-utils.js";
  * @customElement
  * @polymer
  * @appliesMixin OEFieldMixin
- * @appliesMixin DataMaskMixin
+ * @appliesMixin OEDataMaskMixin
  * @demo /demo/index.html
  */
-class OeInfo extends PolymerElement {
+class OeInfo extends OEFieldMixin(PolymerElement) {
   static get is() {
     return 'oe-info';
   }
 
   static get template() {
-    return html`
+    return html `
       <style >
         #label,
         #info {
@@ -194,22 +194,6 @@ class OeInfo extends PolymerElement {
   }
 
   /**
-   * Get the value from the 'obj' based on the 'path'.
-   * @param {Object} obj object to navigate
-   * @param {string} path path for navigation
-   * @return {Any} value present in the given path of the obj.
-   */
-  _deepValue(obj, path) {
-    path = path.split('.');
-
-    for (var i = 0, len = path.length; obj && i < len; i++) {
-      obj = obj[path[i]];
-    }
-
-    return obj;
-  }
-
-  /**
    * Refresh the display due to either value or some configuration attribute change.
    */
   _refresh() {
@@ -314,4 +298,4 @@ class OeInfo extends PolymerElement {
 if (!window.moment) {
   console.warn('OE-INFO : Import moment.js at the document level to support date formats.');
 }
-window.customElements.define(OeInfo.is, OEDataMaskMixin(OEFieldMixin(OeInfo)));
+window.customElements.define(OeInfo.is, OEDataMaskMixin(OeInfo));
