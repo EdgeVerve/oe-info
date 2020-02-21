@@ -181,7 +181,13 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
   }
 
   _computeAreaLabel(translatedLabel, display, translatedDisplay, type){
-    if(this._needI18n(type)){
+    if(type === 'date' && !this.format){
+      return translatedLabel + " " + new Date(this.value).toDateString();
+    }
+    else if(type === 'timestamp' && !this.format){
+      return translatedLabel + " " + new Date(this.value).toDateString() + " " + new Date(this.value).toLocaleTimeString();
+    }
+    else if(this._needI18n(type)){
       return translatedLabel + " " + translatedDisplay;
     } else {
       return translatedLabel + " " + display;
