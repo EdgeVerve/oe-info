@@ -80,17 +80,17 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
           display: none;
         }
       </style>
-      <div class$="[[layout]]">
-        <div id="label">
-          <oe-i18n-msg msgid=[[label]]>[[label]]</oe-i18n-msg>
+      <div class$="[[layout]]" aria-label$="[[_computeAreaLabel(translatedLabel, display, translatedDisplay, type)]]">
+        <div id="label" aria-hidden="true">
+          <oe-i18n-msg msgid=[[label]] msg={{translatedLabel}}>[[label]]</oe-i18n-msg>
         </div>
-        <div id="info">
+        <div id="info" aria-hidden="true">
           <dom-if if=[[!_needI18n(type)]]>
             <template>[[display]]</template>
           </dom-if>
           <dom-if if=[[_needI18n(type)]]>
             <template>
-              <oe-i18n-msg msgid=[[display]]>[[display]]</oe-i18n-msg>
+              <oe-i18n-msg msgid=[[display]] msg={{translatedDisplay}}>[[display]]</oe-i18n-msg>
             </template>
           </dom-if>
             <!-- dummy span to ensure div with empty value occupies the space -->
@@ -178,6 +178,20 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
         }
       }
     };
+  }
+
+  _computeAreaLabel(translatedLabel, display, translatedDisplay, type){
+    if(type === 'date' && !this.format){
+      return translatedLabel + " " + new Date(this.value).toDateString();
+    }
+    else if(type === 'timestamp' && !this.format){
+      return translatedLabel + " " + new Date(this.value).toDateString() + " " + new Date(this.value).toLocaleTimeString();
+    }
+    else if(this._needI18n(type)){
+      return translatedLabel + " " + translatedDisplay;
+    } else {
+      return translatedLabel + " " + display;
+    }
   }
 
   /**
