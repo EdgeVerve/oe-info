@@ -257,6 +257,10 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
         }) : '';
         break;
       }
+      case 'percentage': {
+        newDisplay = (nval !== undefined || nval !== null) ? Number(nval/100).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:this.precision}):'';
+        break;
+      }
       case 'number':
       case 'double':
       case 'decimal': {
