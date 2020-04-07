@@ -249,7 +249,7 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
         break;
       }
       case 'integer': {
-
+        
         newDisplay = (nval !== undefined || nval !== null) ? Number(nval).toLocaleString(undefined, {
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
@@ -258,7 +258,7 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
         break;
       }
       case 'percentage': {
-        newDisplay = (nval !== undefined || nval !== null) ? Number(nval/100).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:this.precision}):'';
+        newDisplay = (nval !== undefined || nval !== null) ? Number(nval).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:this.precision}):'';
         break;
       }
       case 'number':

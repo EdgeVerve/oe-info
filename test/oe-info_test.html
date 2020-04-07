@@ -75,6 +75,12 @@
         evinfo.value = 4534535.978657;
         assert.equal(evinfo.display, '4534536', 'integer formatting');
       });
+      test('decimal value is formatted to percentage - round up', function () {
+        var evinfo = fixture('basic');
+        evinfo.type = 'percentage';
+        evinfo.value = 0.34567;
+        assert.equal(evinfo.display, '34.57%', 'percentage formatting');
+      });
 
       test('decimal value is formatted with default precision and locale', function () {
         var evinfo = fixture('basic');
