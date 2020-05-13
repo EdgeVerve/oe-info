@@ -18,7 +18,29 @@
   </script>
 
   <script type="module" src="../oe-info.js"></script>
-  <script type="module" src="../node_modules/oe-utils/oe-utils.js"></script>
+  <script type="text/javascript">
+         
+    window.OEUtils = window.OEUtils || {};
+    OEUtils.componentDefaults = OEUtils.componentDefaults || {};
+    OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
+    OEUtils.componentDefaults["oe-info"].formatFunction = {
+      gridFormatter: function (nval) {
+        let tempArray = nval;
+        let display;
+        let valueproperty = 'name';
+        if(valueproperty){
+          tempArray = nval.map(item => item[valueproperty])
+        }
+
+        display = tempArray.filter(item => !!item).join();
+        return display;
+      }
+     
+
+    }
+
+
+  </script>
   <custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
       .custom-css {
@@ -86,27 +108,7 @@
         }
       ]'></oe-info>
         
-        <script type="text/javascript">
-         
-          window.OEUtils = window.OEUtils || {};
-          OEUtils.componentDefaults = OEUtils.componentDefaults || {};
-          OEUtils.componentDefaults["oe-info"] = {
-            gridFormatter: function (nval) {
-              let tempArray = nval;
-              let valueproperty = 'name';
-              if(valueproperty){
-                tempArray = nval.map(item => item[valueproperty])
-              }
-
-              display = tempArray.filter(item => !!item).join();
-              return display;
-            }
-           
-
-          }
-
-
-        </script>
+      
       </template>
     </demo-snippet>
 

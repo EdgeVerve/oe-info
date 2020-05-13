@@ -285,8 +285,8 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
         break;
       }
       case 'custom': {
-        if(typeof(this._defaultSettings[this.format]) === 'function'){
-           newDisplay = this._defaultSettings[this.format](nval);
+        if(typeof(this._defaultSettings.formatFunction[this.format]) === 'function'){
+           newDisplay = this._defaultSettings.formatFunction[this.format](nval);
            break;
         }
       }
