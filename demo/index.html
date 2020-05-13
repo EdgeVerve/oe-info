@@ -18,13 +18,35 @@
   </script>
 
   <script type="module" src="../oe-info.js"></script>
+  <script type="text/javascript">
+         
+    window.OEUtils = window.OEUtils || {};
+    OEUtils.componentDefaults = OEUtils.componentDefaults || {};
+    OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
+    OEUtils.componentDefaults["oe-info"].formatFunction = {
+      gridFormatter: function (nval) {
+        let tempArray = nval;
+        let display;
+        let valueproperty = 'name';
+        if(valueproperty){
+          tempArray = nval.map(item => item[valueproperty])
+        }
 
+        display = tempArray.filter(item => !!item).join();
+        return display;
+      }
+     
+
+    }
+
+
+  </script>
   <custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
       .custom-css {
-        
+
         --oe-info-container: {
-          margin:5px 0px 20px;
+          margin: 5px 0px 20px;
         }
         --oe-info-value: {
           border-width: 0px;
@@ -47,21 +69,55 @@
   </custom-style>
 </head>
 
+
 <body>
   <div class="vertical-section-container centered">
     <h3>Simple</h3>
     <demo-snippet>
       <template>
-        <oe-info  label="account" value="IBAN4923043423434"></oe-info>
+        <oe-info label="account" value="IBAN4923043423434"></oe-info>
       </template>
     </demo-snippet>
-    <h3>Simple</h3>
+    <h3>Custom Type</h3>
+    <demo-snippet>
+      <template>
+        <oe-info id="custom" type="custom" format="gridFormatter" value='[
+        {
+          "fbo_type": "FBO_CPTY_ROLE_DATA",
+          "fbo_number": 1,
+          "fbo_version": 1,
+          "fbo_id": "FBO_CPTY_ROLE_DATA-1-1",
+          "name": "EXCHANGE",
+          "system_info": {}
+        },
+        {
+          "fbo_type": "FBO_CPTY_ROLE_DATA",
+          "fbo_number": 2,
+          "fbo_version": 1,
+          "fbo_id": "FBO_CPTY_ROLE_DATA-2-1",
+          "name": "AMC",
+          "system_info": {}
+        },
+        {
+          "fbo_type": "FBO_CPTY_ROLE_DATA",
+          "fbo_number": 4,
+          "fbo_version": 1,
+          "fbo_id": "FBO_CPTY_ROLE_DATA-4-1",
+          "name": "BROKER",
+          "system_info": {}
+        }
+      ]'></oe-info>
+        
+      
+      </template>
+    </demo-snippet>
+
+    <h3>Percentage</h3>
     <demo-snippet>
       <template>
         <oe-info label="Percentage" type="percentage" value="0.34567"></oe-info>
       </template>
     </demo-snippet>
-
 
     <h3>Boolean</h3>
     <demo-snippet>
@@ -135,7 +191,7 @@
       <template>
         <oe-info class="custom-css" label="No Format" type="timestamp" value="2016-03-24T07:29:32.354Z"></oe-info>
         <oe-info class="custom-css" label="No precision" type="number" value="4343.34234342"></oe-info>
-        <oe-info  class="custom-css" label="account" value="IBAN4923043423434"></oe-info>
+        <oe-info class="custom-css" label="account" value="IBAN4923043423434"></oe-info>
       </template>
     </demo-snippet>
   </div>
