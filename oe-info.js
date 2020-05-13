@@ -211,7 +211,13 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
    * Refresh the display due to either value or some configuration attribute change.
    */
   _refresh() {
-
+    if (!this._defaultSettings) {
+      var OEUtils = window.OEUtils;
+      OEUtils = OEUtils || {};
+      OEUtils.componentDefaults = OEUtils.componentDefaults || {};
+      OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
+      this._defaultSettings = OEUtils.componentDefaults["oe-info"];
+    }
     var nval = this.value;
     var newDisplay = '';
     var OEUtils = window.OEUtils || {};
@@ -277,6 +283,12 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
       case 'boolean': {
         newDisplay = nval ? 'Yes' : 'No';
         break;
+      }
+      case 'custom': {
+        if(typeof(this._defaultSettings[this.format]) === 'function'){
+           newDisplay = this._defaultSettings[this.format](nval);
+           break;
+        }
       }
       default:
         var valueType = typeof nval;
