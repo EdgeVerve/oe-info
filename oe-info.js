@@ -80,7 +80,7 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
           display: none;
         }
       </style>
-      <div class$="[[layout]]" aria-label$="[[_computeAreaLabel(translatedLabel, display, translatedDisplay, type)]]">
+      <div class$="[[layout]]" aria-label$="[[_computeAriaLabel(translatedLabel, display, translatedDisplay, type)]]">
         <div id="label" aria-hidden="true">
           <oe-i18n-msg msgid=[[label]] msg={{translatedLabel}}>[[label]]</oe-i18n-msg>
         </div>
@@ -180,7 +180,7 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
     };
   }
 
-  _computeAreaLabel(translatedLabel, display, translatedDisplay, type){
+  _computeAriaLabel(translatedLabel, display, translatedDisplay, type){
     if(type === 'date' && !this.format){
       return translatedLabel + " " + new Date(this.value).toDateString();
     }
