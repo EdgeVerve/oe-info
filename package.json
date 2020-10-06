@@ -2,7 +2,7 @@
   "name": "oe-info",
   "description": "A element used to display formatted values of numeric, string and date type",
   "main": "oe-info.js",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "scripts": {
     "test": "polymer test --module-resolution node --skip-selenium-install",
     "lint": "eslint .",

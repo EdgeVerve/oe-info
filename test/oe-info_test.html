@@ -75,6 +75,12 @@
         evinfo.value = 4534535.978657;
         assert.equal(evinfo.display, '4534536', 'integer formatting');
       });
+      test('decimal value is formatted to percentage - round up', function () {
+        var evinfo = fixture('basic');
+        evinfo.type = 'percentage';
+        evinfo.value = 0.34567;
+        assert.equal(evinfo.display, '34.57%', 'percentage formatting');
+      });
 
       test('decimal value is formatted with default precision and locale', function () {
         var evinfo = fixture('basic');
@@ -148,7 +154,7 @@
       test('Object value is formatted with specified format', function () {
         var evinfo = fixture('basic');
         evinfo.format = '$[name] balance is $[balance.value] $[balance.ccy]';
-        var value={"name": "Trading Account", "balance": {"value": 1000, "ccy": "USD"}};
+        var value = { "name": "Trading Account", "balance": { "value": 1000, "ccy": "USD" } };
         evinfo.value = value;
         var expected = 'Trading Account balance is 1000 USD';
         assert.equal(evinfo.display, expected, 'object formatting');
@@ -177,17 +183,17 @@
           var OEUtils = window.OEUtils || {};
           OEUtils.componentDefaults = OEUtils.componentDefaults || {};
           OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
-          OEUtils.componentDefaults["oe-info"].preferredTimezone  = 120;
+          OEUtils.componentDefaults["oe-info"].preferredTimezone = 120;
           done();
         }, 1000)
-        });
+      });
       test('timestamp value in preferred timezone with positive timezone offset', function () {
         var oeinfo = fixture('basic');
         oeinfo.type = 'timestamp';
         oeinfo.format = 'DD-MMM-YYYY HH:mm:ss';
         //UTC value
         var value = "2019-06-03T22:00:00Z";
-        oeinfo.value= value;
+        oeinfo.value = value;
         //Expected time in preferred timezone
         var expected = '04-Jun-2019 00:00:00';
         assert.equal(oeinfo.display, expected, 'timezone setting');
@@ -199,20 +205,82 @@
           var OEUtils = window.OEUtils || {};
           OEUtils.componentDefaults = OEUtils.componentDefaults || {};
           OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
-          OEUtils.componentDefaults["oe-info"].preferredTimezone  = -240;
+          OEUtils.componentDefaults["oe-info"].preferredTimezone = -240;
           done();
         }, 1000)
-        });
+      });
       test('timestamp value in preferred timezone with negative timezone offset', function () {
         var oeinfo = fixture('basic');
         oeinfo.type = 'timestamp';
         oeinfo.format = 'DD-MMM-YYYY HH:mm:ss';
         //UTC value
         var value = "2019-06-04T04:00:00Z";
-        oeinfo.value= value;
+        oeinfo.value = value;
         //Expected time in preferred timezone
         var expected = '04-Jun-2019 00:00:00';
         assert.equal(oeinfo.display, expected, 'timezone setting');
+      });
+    });
+    suite('Custom Type Formatting', function () {
+      setup(function (done) {
+        setTimeout(function () {
+          window.OEUtils = window.OEUtils || {};
+          OEUtils.componentDefaults = OEUtils.componentDefaults || {};
+          OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
+          OEUtils.componentDefaults["oe-info"].formatFunction = {
+            gridFormatter: function (nval) {
+              let display;
+              let tempArray = nval;
+              let valueproperty = 'name';
+              if (valueproperty) {
+                tempArray = nval.map(item => item[valueproperty])
+              }
+
+              display = tempArray.filter(item => !!item).join();
+              return display;
+            }
+
+
+          }
+          done();
+        }, 1000)
+      });
+      test('Custom type, Type is grid with gridFormatter function attached to oe-info object', function () {
+        var oeinfo = fixture('basic');
+        var value = [
+          {
+            "fbo_type": "FBO_CPTY_ROLE_DATA",
+            "fbo_number": 1,
+            "fbo_version": 1,
+            "fbo_id": "FBO_CPTY_ROLE_DATA-1-1",
+            "name": "EXCHANGE",
+            "system_info": {}
+          },
+          {
+            "fbo_type": "FBO_CPTY_ROLE_DATA",
+            "fbo_number": 2,
+            "fbo_version": 1,
+            "fbo_id": "FBO_CPTY_ROLE_DATA-2-1",
+            "name": "AMC",
+            "system_info": {}
+          },
+          {
+            "fbo_type": "FBO_CPTY_ROLE_DATA",
+            "fbo_number": 4,
+            "fbo_version": 1,
+            "fbo_id": "FBO_CPTY_ROLE_DATA-4-1",
+            "name": "BROKER",
+            "system_info": {}
+          }
+        ];
+        oeinfo.value = value;
+        oeinfo.type = 'custom';
+        oeinfo.format = 'gridFormatter';
+        //UTC value
+
+        //Expected time in preferred timezone
+        var expected = 'EXCHANGE,AMC,BROKER';
+        assert.equal(oeinfo.display, expected);
       });
     });
 

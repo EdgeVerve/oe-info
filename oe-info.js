@@ -80,17 +80,17 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
           display: none;
         }
       </style>
-      <div class$="[[layout]]">
-        <div id="label">
-          <oe-i18n-msg msgid=[[label]]>[[label]]</oe-i18n-msg>
+      <div class$="[[layout]]" aria-label$="[[_computeAriaLabel(translatedLabel, display, translatedDisplay, type)]]">
+        <div id="label" aria-hidden="true">
+          <oe-i18n-msg msgid=[[label]] msg={{translatedLabel}}>[[label]]</oe-i18n-msg>
         </div>
-        <div id="info">
+        <div id="info" aria-hidden="true">
           <dom-if if=[[!_needI18n(type)]]>
             <template>[[display]]</template>
           </dom-if>
           <dom-if if=[[_needI18n(type)]]>
             <template>
-              <oe-i18n-msg msgid=[[display]]>[[display]]</oe-i18n-msg>
+              <oe-i18n-msg msgid=[[display]] msg={{translatedDisplay}}>[[display]]</oe-i18n-msg>
             </template>
           </dom-if>
             <!-- dummy span to ensure div with empty value occupies the space -->
@@ -180,6 +180,20 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
     };
   }
 
+  _computeAriaLabel(translatedLabel, display, translatedDisplay, type){
+    if(type === 'date' && !this.format){
+      return translatedLabel + " " + new Date(this.value).toDateString();
+    }
+    else if(type === 'timestamp' && !this.format){
+      return translatedLabel + " " + new Date(this.value).toDateString() + " " + new Date(this.value).toLocaleTimeString();
+    }
+    else if(this._needI18n(type)){
+      return translatedLabel + " " + translatedDisplay;
+    } else {
+      return translatedLabel + " " + display;
+    }
+  }
+
   /**
    * For boolean values, we need i18n so that Yes/No etc. can be translated appropriately.
    * @param {string} type type of the value 
@@ -197,7 +211,13 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
    * Refresh the display due to either value or some configuration attribute change.
    */
   _refresh() {
-
+    if (!this._defaultSettings) {
+      var OEUtils = window.OEUtils;
+      OEUtils = OEUtils || {};
+      OEUtils.componentDefaults = OEUtils.componentDefaults || {};
+      OEUtils.componentDefaults["oe-info"] = OEUtils.componentDefaults["oe-info"] || {};
+      this._defaultSettings = OEUtils.componentDefaults["oe-info"];
+    }
     var nval = this.value;
     var newDisplay = '';
     var OEUtils = window.OEUtils || {};
@@ -235,12 +255,16 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
         break;
       }
       case 'integer': {
-
+        
         newDisplay = (nval !== undefined || nval !== null) ? Number(nval).toLocaleString(undefined, {
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
           useGrouping: false
         }) : '';
+        break;
+      }
+      case 'percentage': {
+        newDisplay = (nval !== undefined || nval !== null) ? Number(nval).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:this.precision}):'';
         break;
       }
       case 'number':
@@ -259,6 +283,12 @@ class OeInfo extends OEFieldMixin(PolymerElement) {
       case 'boolean': {
         newDisplay = nval ? 'Yes' : 'No';
         break;
+      }
+      case 'custom': {
+        if(this._defaultSettings.formatFunction && typeof(this._defaultSettings.formatFunction[this.format]) === 'function'){
+           newDisplay = this._defaultSettings.formatFunction[this.format](nval);
+           break;
+        }
       }
       default:
         var valueType = typeof nval;
